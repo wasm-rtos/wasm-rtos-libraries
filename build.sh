@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 # Build an Arduino sketch into a wasm-rtos program.
 #
-#   arduino/build.sh sketch.ino [library directory or source file ...] -o program.wasm
+#   build.sh sketch.ino [library directory or source file ...] -o program.wasm
 #
 # A library directory contributes its .cpp and .c files (also under src/)
 # and its headers. Needs clang++ with a WASI target, libc++ for it, and
 # wasm-ld. CXX (default clang++), WASI_SYSROOT (default: the compiler's own)
-# and WASI_TARGET (default wasm32-wasip1) override the defaults.
+# and WASI_TARGET (default wasm32-wasip1) override the defaults; WASM_RTOS
+# (default ../wasm-rtos next to this repository) is the wasm-rtos checkout
+# whose include/wasm-rtos.h the core is built against.
 set -euo pipefail
 
 ARDUINO_DIR="$(cd "$(dirname "$0")" && pwd)"
-KERNEL_DIR="$(dirname "$ARDUINO_DIR")"
+KERNEL_DIR="${WASM_RTOS:-$(dirname "$ARDUINO_DIR")/wasm-rtos}"
+if [ ! -f "$KERNEL_DIR/include/wasm-rtos.h" ]; then
+    echo "build.sh: no include/wasm-rtos.h in $KERNEL_DIR; set WASM_RTOS to a wasm-rtos checkout" >&2
+    exit 1
+fi
 CXX="${CXX:-clang++}"
 WASI_TARGET="${WASI_TARGET:-wasm32-wasip1}"
 target=(--target="$WASI_TARGET")

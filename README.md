@@ -1,4 +1,6 @@
-# Arduino core for wasm-rtos
+# wasm-rtos-arduino
+
+The Arduino core for [wasm-rtos](https://github.com/wasm-rtos/wasm-rtos).
 
 Arduino sketches and libraries, built into wasm-rtos programs. The core is a
 library that becomes part of the sketch's `.wasm`: the operating system has
@@ -6,7 +8,7 @@ no Arduino code in it, and a program that does not use the core carries
 none of it.
 
 ```sh
-arduino/build.sh sketch.ino path/to/SomeLibrary path/to/OtherLibrary -o sketch.wasm
+WASM_RTOS=path/to/wasm-rtos ./build.sh sketch.ino path/to/SomeLibrary path/to/OtherLibrary -o sketch.wasm
 ```
 
 A library directory contributes its `.cpp` and `.c` files and headers (also
