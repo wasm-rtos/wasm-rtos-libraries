@@ -8,5 +8,7 @@ of them.
 |---|---|
 | [`arduino/`](arduino/README.md) | Arduino core and ports of Arduino libraries (Wire, SPI, OneWire, Encoder, NeoPixel): sketches built into wasm-rtos programs |
 
+Why they are made the way they are: [`docs/decisions.md`](docs/decisions.md).
+
 Each library builds against `include/wasm-rtos.h` from a wasm-rtos checkout,
 found through `WASM_RTOS` (by default `wasm-rtos` next to this repository).
